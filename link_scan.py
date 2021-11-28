@@ -1,8 +1,11 @@
 import sys
 import urllib.error
 import urllib.request
+
 from typing import List
+
 from selenium import webdriver
+from selenium.webdriver.remote.webelement import WebElement
 
 
 def get_links(url: str) -> List[str]:
@@ -16,11 +19,11 @@ def get_links(url: str) -> List[str]:
         without page fragments or query parameters.
     """
     browser.get(url)
-    elements = browser.find_elements_by_tag_name("a")
+    elements: List[WebElement] = browser.find_elements_by_tag_name("a")
     url_list = []
     for link in elements:
         url = link.get_attribute('href')
-        if url is not None: 
+        if url is not None:
             url = url.split('#')
             url = url[0].split('?')
             url = url[0]
@@ -30,7 +33,7 @@ def get_links(url: str) -> List[str]:
 
 def is_valid_url(url: str) -> bool:
     """Check if a url is valid & reachable or not.
-    
+
     Args:
         url: url of website
 
@@ -48,10 +51,10 @@ def is_valid_url(url: str) -> bool:
 def invalid_urls(urllist: List[str]) -> List[str]:
     """Validate the urls in urllist and return a new list
     containing the invalid or unreachable urls.
-    
+
     Args:
         urllist: a list of URLs
-    
+
     Returns:
         a new list containing only the invalid or unreachable URLs
     """
@@ -73,4 +76,3 @@ if __name__ == "__main__":
     print('\nThese are bad links:')
     for url in bad_url:
         print(url)
-
