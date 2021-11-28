@@ -1,4 +1,6 @@
 import sys
+import urllib.error
+import urllib.request
 from typing import List
 from selenium import webdriver
 
@@ -25,6 +27,21 @@ def get_links(url: str) -> List[str]:
         url_list.append(url)
     return url_list
 
+def is_valid_url(url: str) -> bool:
+    """Check if a url is valid & reachable or not.
+    
+    Args:
+        url: url of website
+
+    Returns:
+        True: if the url is valis and reachable
+        False: if the url is unvalid and not reachable or invalid syntax
+    """
+    try:
+        urllib.request.urlopen(url)
+    except urllib.error.HTTPError:
+        return False
+    return True
 
 if __name__ == "__main__":
     browser = webdriver.Chrome('C:\Program Files\Chrome\chromedriver.exe')
